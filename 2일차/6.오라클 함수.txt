@@ -1,0 +1,319 @@
+오라클 함수
+ - 오라클 내부에서 기본적으로 제공해주는 함수
+ - 함수 - 어떤 기능이 정의되어 있는 것...
+ - select 문을 이용하여 함수를 사용한다....
+
+DUAL테이블 - 임시테이블
+ - 어떤 결과를 출력하기 위해서 임시적으로 만들어지는 테이블...
+
+1.숫자 함수
+
+ - abs(n) - n의 절대값을 구하는 함수
+
+	select abs(32) from dual;
+	select abs(-32) from dual;
+
+ - ceil(n) - n은 실수값 n보다 같거나 큰 정수를 반환 한다...
+
+	select ceil(12.57) ,ceil(1.234) from dual;
+
+ - floor(n) - n보다 작거나 같은 정수를 반환한다....
+	select floor(12.57) as floor1,floor(1.234) as floor2 from dual;
+
+ - round(n,i)
+  - n - 실수 , i - 정수
+  - n의 소수점 자리수 지정하는 함수
+
+	select round(123.456,1) , round(123.456,4) from dual;
+
+ - trunc(n,i) -round와 비슷하지만 버림....
+	
+	select trunc(123.456,1) , trunc(123.456,4) from dual;
+
+ - power(n1,n2) - 거듭제곱 n1의 n2승
+     
+	select power(2,3) from dual;
+
+ - mod(n1,n2) - n1을 n2로 나눈 나머지 - remainder 랑 동일....
+	
+	select mod(10,3) from dual;
+
+ - sign(n) - n이 양수 인지 음수인지 판별하는 함수
+  - 반환값은 양수면 1 , 음수면 -1 , 0이면 0을 반환한다....
+
+	select sign(12),sign(-12),sign(0) from dual;
+
+	select sign(money), money from member;
+
+---------------------------------------------------------------------------------------------------
+
+문자 함수
+ - 문자열을 관리하는 함수
+
+ - initcap(char) - 문자열의 첫글자는 대문자 나머지는 소문자로 변환시켜주는 함수
+
+	select no,name,initcap(id) from member;
+
+ - lower(char) - 대문자를 소문자로 변환하는 함수
+ - upper(char) - 소문자를 대문자로 변환하는 함수
+
+	select initcap(id),lower(id),upper(id) from member;
+
+
+ - concat(char1,char2) - || - char1과 char2를 붙여주는 함수....
+
+	select concat('abc','def') from dual;
+
+	select concat(name,id) from member;
+
+	select concat(name,concat(' - ',id)) from member;
+
+ - substr(char,pos,len) - char문자열에서 pos번째 문자 부터 len길이 만큼을 잘라서 반환하는 함수
+
+	select substr('abcdef',2,3) from dual;
+	
+	select substr('가나다라마',2,3) from dual;
+
+ - substrb(char,pos,len)
+	 - char문자열에서 pos번째 바이트 부터 len길이 만큼의 바이트를 잘라서 반환하는 함수
+	- DB의 문자 체계는 영문자,숫자는 1byte로 처리되고 한글은 3byte로 처리된다....
+
+	select substrb('abcdef',2,3) from dual;
+	select substrb('가나다라마',2,3) from dual;
+
+	select substrb(name,4,6) from member;
+
+ - length(char) - 문자열의 길이를 구하는 함수
+
+	select length('abcdef') from dual;
+
+ - lengthb(char) - 문자열의 바이트길이를 구하는 함수
+
+	select lengthb('abcdef') from dual;
+
+
+  - 아이디의 길이가 10인 회원의 이름 아이디 마일리지를 출력하십시오.
+	select name,id,money from member where length(id) = 10;
+
+ - ltrim(char1,char2) - char1의 좌측부터 char2를 찾아서 삭제후 반환하는 함수....
+	- char2는 생략을 해도 되지만 디폴트값을 ' '가 지정되어있다....
+	- char2를 넣으면 char2로 시작해야지만 삭제를 해준다.....
+
+	- trim - 공백제거.....
+
+	select ltrim('abcdef','ab') from dual;
+
+	select ltrim('abcdef','cd') from dual;
+
+	select length('                      abcdef') , length(ltrim('                      abcdef')) from dual;
+  
+ - rtrim(char1,char2) - ltrim과 같은 역할을 하지만 좌측이 아니라 우측이다...
+
+	select length('                      abcdef') , length(rtrim('                      abcdef')) from dual;
+
+	select rtrim('abcdef','ab') from dual;
+
+	select rtrim('abcdef','ef') from dual;
+
+
+ - trim(char) - 문자열의 공백을 제거하는 함수
+	
+	- 키워드를 통해 왼쪽 오른쪽 양쪽을 지정하여 공백을 제거할수도 있다....
+
+	- leading - 왼쪽
+	- trailing - 오른쪽
+	- both - 양쪽 - 디폴트
+
+	select length('   abc   '),length(trim('   abc   ')) from dual;
+
+	select length('   abc   '),length(trim(leading from '   abc   ')) from dual;
+
+	select length('   abc   '),length(trim(trailing from '   abc   ')) from dual;
+
+
+ - lpad(char1,n,char2) - char1의 왼쪽부터 char2채운다.... n은 문자열의 자리수
+
+	select lpad('abc',7,'$') from dual;
+
+	select lpad('abc',7,'ㅇㅋ') from dual;
+
+ - rpad(char1,n,char2) - char1의 오른쪽부터 char2채운다.... n은 문자열의 자리수
+
+ - ascii(char) - 문자의 아스키코드값을 반환하는 함수
+  - 아스키코드외의 문자를 사용할경우 DB에서 사용되는 문자 체계(DBCDIC)의 값을 반환한다...
+  - 문자열을 넣을시에는 첫글자의 아스키코드값이 반환 된다...
+
+  - 아스키코드(ascii code)
+   - 컴퓨터는 정수밖에 처리하지 못한다...
+   - 문자 마다 고유한 정수값들을 정해 놓았다.....
+   - 문자 사용시 컴퓨터에서는 고유한 정수값으로 저장을 한다...
+   - 키보드의 키들을 구분하기위한 값이다...
+
+	select ascii('A') from dual;
+
+	select ascii('abc') from dual;
+
+ - decode(input1,serch1,result1,result2.......)
+   - if ~else
+   - input1의 문자열이 serch1과 비교하여 같으면 result1 다르면 result2 반환한다...
+
+	select decode('abcde','abcde','같다','다르다') from dual;
+
+
+select decode('abcde','abc','같다1','abcd','같다2','abcde','같다3','다르다') from dual;
+
+
+----------------------------------------------------------------------------
+
+3. 날짜함수
+
+ - sysdate - 현재 시간을 반환하는 함수 - 시스템기준
+
+	select sysdate from dual;
+
+ - current_date - 현재시간 접속한 지역 기준...
+
+	select current_date from dual;
+
+ - systimestamp - 자세한 시간 정보 - 시스템 기준
+ - current_timestamp - 자세한 시간 정보 - 접속한 지역 기준...
+
+	select systimestamp , current_timestamp from dual;
+
+ - add_months(date,n) - date(날짜)에 n수만큼의 월을 더하거나 빼는 함수...
+
+	select add_month(sysdate,2) from dual;
+
+ - months_between(date1,date2) - 두 날짜 사이의 개월수를 반환하는 함수.
+	
+	select months_between(sysdate , '2019-06-01') from dual;
+
+	select round(months_between(sysdate , '2019-06-01')) from dual;
+
+ - last_day(date) - date기준의 월말일을 반환하는 함수...
+
+	select last_day(sysdate) from dual;
+
+	select last_day('2019-02-01') from dual;
+
+	select last_day('2018-02-01') from dual;
+
+	select last_day('2017-02-01') from dual;
+
+	select last_day('2016-02-01') from dual;
+
+
+--select * from member where joindate between '2015/1/1' and to_date('2016/03/01')-1;
+
+select * from member where joindate between '2015/1/1' and last_day('2016-02-01');
+
+
+ - next_day(date,char) - date기준으로 char에 명시한 요일의 날짜를 반환하는 함수...
+   - 요일에 대한 약어를 사용한다....
+   - 한국 컴퓨터는 영어 불가 , 외국컴퓨터에서는 영어가능 한글 불가. 
+     -  '월' '월요일' 2 O  'mon' X
+   - 기준날짜 이후의 날짜를 출력한다... 
+   - 일월화수목금토 - 1 ~ 7
+
+	select next_day(sysdate,3) from dual;
+	
+	select next_day(sysdate,'월') from dual;
+
+	select next_day(sysdate,'월요일') from dual;
+
+-----------------------------------------------------------------------------------------------
+
+4.변환 함수
+  - to_date(date , format) - 문자 형식에 맞는 날자로 변환하는 함수..
+   - 주로 사용하는 것은 데이터의 형식을 날짜(date형식)형식으로 변환할때 쓴다....
+	
+	select to_date(sysdate,'YYYY/MM/DD HH24:MI:SS') from dual;
+
+	//select to_date(systimestamp,'YYYY/MM/DD HH24:MI:SS') from dual;
+	
+	select to_date('2019/07/22') from dual;
+
+
+	select to_date('20190722','YYYY-MM-DD') from dual;
+
+
+	select to_char(to_date('20190722'),'YYYY-MM-DD') from dual;
+
+ - to_number(data,format) - data를 format형식에 맞게 숫자로 변환하는 함수...
+  - format을 넣으면 에러가 발생되는경우가 많다....
+  - 문자형식의 데이터를 정수처리해야 할때 사용된다....
+
+	select to_number('123456') from dual;
+
+ - to_char(data,format) - data를 format형식에 맞게 문자로 변환하는 함수..
+
+	select to_char(to_date('20190722'),'YYYY-MM-DD') from dual;
+
+	select to_char('123456','999,999') from dual;
+
+	select to_char('123456','$999,999') from dual;
+
+   - 숫자 포멧
+    - 9 - 9 하나당 숫자 하나.
+    - , - 자리수만큼 마다 ,가 적힌다...
+    - $999,999 - 제일 앞에 $를 붙인다...
+
+
+-------------------------------------------------------------------------------------------------
+
+5. NULL함수
+
+ - nvl(input1,input2) - input1컬럼이 NULL이면 input2를 반환하는 함수...
+
+	select nvl(pw,'설정안됨') from member;
+
+
+ - nvl2(input1,input2,input3) - input1컬럼이 NULL이 아니면 input2를 반환 NULL이면 input3를 반환하는 함수...
+	
+	select nvl2(pw,'secret','non') from member;
+
+
+-------------------------------------------------------------------------------------------------
+
+6.수치함수
+ 1. sum(필드명) - 특정 필드의 총 합을 구하는 함수
+	select sum(money) from member;
+
+ 2. avg(필드명) - 특정 필드의 평균을 구하는 함수
+
+ 3. max(필드명) - 특정 필드의 최대값을 구하는 함수
+
+ 4. min(필드명) - 특정 필드의 최소값을 구하는 함수
+
+ 5. count(필드명) - 특정 필드의 개수를 구하는 함수
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

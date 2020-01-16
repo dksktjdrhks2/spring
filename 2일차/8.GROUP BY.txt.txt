@@ -1,0 +1,52 @@
+
+GROUP BY 절
+ - 데이터들을 원하는 그룹으로 나눌때 사용한다....
+
+ - select [GROUP BY 절에 지정된 컬럼] [GROUP BY별로 집계할 값] from 테이블명 GROUP BY [그룹으로 묶을 컴럼]
+
+
+
+select department_id,round(avg(salary)) from employees group by department_id order by department_id asc;
+
+-- having절
+--  - group by절의 조건을 적는 절...
+
+-- select [GROUP BY 절에 지정된 컬럼] [GROUP BY별로 집계할 값] from 테이블명 GROUP BY [그룹으로 묶을 컴럼]
+-- having [조건]
+
+-- having 의 조건은 그룹별로 나눈 수치에 대한 조건을 적어야 한다....
+select 
+department_id,round(avg(salary)) 
+from employees 
+group by department_id 
+having avg(salary) >= 10000;
+
+-- job_id를 그룹별로 나누어서 평균 연봉을 구하는데 전체 평균 연봉 보다 높은 job_id만 검색...
+
+select job_id,round(avg(salary)) from employees group by job_id having avg(salary) >= 6461;
+
+select avg(salary) from employees;
+
+select 
+job_id,round(avg(salary))
+from employees 
+group by job_id 
+having avg(salary) >= (select avg(salary) from employees);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

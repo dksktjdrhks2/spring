@@ -1,0 +1,323 @@
+테이블의 제약조건
+ - 쓰레기 데이터의 유입을 방지하기 위한 조건들..
+ - 내가 원하는 데이터를 받아 들이기 위한 조건
+ - 무결성을 위한 조건...
+
+ - 종류
+  1. not null - NULL값을 허용하지 않는 조건
+  2. unique - 중복된 값을 허용하지 않는 조건
+  3. primary key(기본키) - not null + unique
+  4. check - 조건에 맞는 값만 허용하는 조건
+  5. default - 데이터를 넣지 않았을때 자동으로 default값을 설정하는 조건
+  6. foreign key(외래키) - 참조키
+     - 값을 참조하고 있는 테이블의 primary key 내에 데이터가 존재해야 하는 조건
+
+// 적용방법
+ 컴럼명 컬럼타입 constraint 제약조건명 제약조건
+
+// - 제약조건명은 구분하기 쉽게 하기 위해서 테이블명뒤에 _를 붙이고 약어를 적게 된다... 
+
+-------------------------------------------------------------------------------------------------
+not null
+ - NULL값을 허용하지 않는 조건
+ - not null 조건은 테이블에 적용시 check 조건으로 변환되어 사용된다....
+ - check 컴럼명 != null
+
+
+
+create table test1(
+no number constraint test1_nn not null,
+name varchar2(20)
+);
+
+insert into test1 values(1,'김민준');
+insert into test1(name) values('조은혜');
+
+SQL> insert into test1(name) values('조은혜');
+insert into test1(name) values('조은혜')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("TEST"."TEST1"."NO")
+
+
+SQL> insert into test1 values(null,'조은혜');
+insert into test1 values(null,'조은혜')
+                         *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("TEST"."TEST1"."NO")
+
+
+SQL> insert into test1 values(2,'조은혜');
+
+------------------------------------------------------------------------------------------------
+
+2.unique - 중복된 값을 허용하지 않는 조건
+
+create table test3(
+no number constraint test3_un unique,
+name varchar2(20)
+);
+
+insert into test3 values(1,'김민준'); -- 중복된 데이터를 넣으면 문제가 발생
+insert into test3(name) values('조은혜'); --null 값은 데이터가 들어가 진다...
+
+-- NULL값이 아닌 데이터들에 한해서 중복을 허용하지 않는 조건...
+
+create table test4(
+no number unique,
+name varchar2(20)
+);
+
+insert into test4 values(1,'김민준');
+
+// - 제약조건 명을 정하지 않으면 자동으로 제약조건명을 정하는데 에러시 확인하기가 힘들...
+
+
+create table test5(
+no number constraint test5_un unique not null,
+name varchar2(20)
+);
+
+create table test5(
+no number constraint test5_un unique not null,
+name varchar2(20)
+);
+
+================================================================================================
+
+3. primary key(기본키)
+ - not null + unique
+ - 테이블을 대표할수 있는 데이터가 있는 컬럼
+ - 테이블당 하나만 설정가능하다...
+ - primary key가 설정되면 자동으로 고유 인덱스(UNIQUE INDEX)가 자동으로 생성된다...
+ 
+
+create table test6(
+	no number constraint test6_pk primary key,
+	name varchar2(20)
+);
+
+insert into test6 values(1,'김민준');
+
+-- 제약조건 추가...
+-- primary key를 추가할때 unique 가 설정된 필드는 삭제후 추가해주어야 한다...
+-- 그냥 추가하면 에러가 발생되므로 unique 제약조건을 삭제후 추가하여야 한다...
+
+-- 추가
+--  - alter table 테이블명 add constraint 제약조건명 제약조건(필드명);
+
+-- 삭제
+--  - alter table 테이블명 drop 제약조건(필드명);
+
+
+-- alter table 테이블명 add(필드명 타입)
+
+alter table test5 drop unique(no);
+
+alter table test5 add constraint test5_pk primary key(no);
+
+------------------------------------------------------------------------------------------------
+
+-- 제약 조건들이 저장되어 있는 테이블...
+
+select * from user_constraints;
+
+------------------------------------------------------------------------------------------------
+
+check 조건 - 조건에 맞는 값만 허용하는 조건
+ 
+create table test7(
+	no number constraint test7_pk primary key,
+	name varchar2(20) not null,
+	gender varchar2(20) constraint test7_ck check(gender in ('남자','여자'))
+);
+
+insert into test7 values(1,'김민준','남자');
+insert into test7 values(2,'송지아','여자');
+insert into test7 values(3,'김민준','남'); -- 조건에 맞지 않는 데이터이기 때문에 error
+insert into test7(no,name) values(3,'김민준'); --NULL조건이 아니기때문에 데이터가 입력이 된다...
+
+//test8
+no - primary key
+name - check - 이름이 세글자만 입력이 가능하도록 ...
+gender - check - 남자 여자...
+
+create table test8(
+	no number constraint test8_pk primary key,
+	name varchar2(20) constraint test8_name_ck check(length(trim(name)) = 3),
+	gender varchar2(20) constraint test8_gender_ck check(gender in ('남자','여자'))
+);
+
+insert into test8 values(1,'김민준','남자');
+insert into test8 values(2,' 송지아','여자');
+insert into test8 values(3,'김민준ㅇ','남자'); -- 조건에 맞지 않는 데이터이기 때문에 error
+insert into test8(no,name) values(3,'김민준'); --NULL조건이 아니기때문에 데이터가 입력이 된다...
+
+=================================================================================================
+
+default - 데이터를 넣지 않으면 자동으로 디폴트 값으로 설정하는 조건
+
+create table test9(
+	no number constraint test7_pk primary key,
+	name varchar2(20) not null,
+	gender varchar2(20) constraint test9_ck check(gender in ('남자','여자')),
+	money number constraint test9_df default 0 -- 따로 이름을 설정하지 않는다...
+);
+
+create table test9(
+	no number constraint test9_pk primary key,
+	name varchar2(20) not null,
+	gender varchar2(20) constraint test9_ck check(gender in ('남자','여자')),
+	money number default 0
+);
+
+insert into test9 values(1,'김민준','남자',1000);
+insert into test9 values(2,'송지아','여자',null);--null을 입력했기 때문에 null값이 입력된다....
+insert into test9(no,name,gender) values(3,'김민준','남자');
+--데이터를 입력하지 않으면 디폴트값이 설정된다...
+
+-----------------------------------------------------------------------------------------------
+
+foreign key(외래키) - 참조키
+ - 값을 참조하고 있는 테이블의 primary key내에 데이터가 존재 해야 하는 조건
+ - primary key를 포함하는 테이블은 부모테이블
+ - foreign key를 포함하는 테이블은 자식테이블
+ - 형식
+   constraint 제약조건명 제약조건(컬럼명) references  참조테이블명(컬럼명)
+ - 부모테이블은 반드시 먼저 만들어져 있어야 한다...
+ - 부모테이블에 참조되는 컬럼에 존재하는 값만 입력이 가능하다...
+ - 기본적으로 부모테이블은 마음대로 삭제가 되지 않는다...cascade
+ - 참조할때 참조하는 컬럼의 데이터타입은 반드시 일치되어야 한다.
+
+
+create table test10(
+	no number constraint test10_pk primary key,
+	name varchar2(20) not null,
+	gender varchar2(20) constraint test10_ck check(gender in ('남자','여자')),
+	money number default 0 not null
+);
+
+insert into test10 values(1,'김민준','남자',1000);
+insert into test10 values(2,'송지아','여자',null);--null을 입력했기 때문에 null조건때문에 입력 불가.
+insert into test10(no,name,gender) values(3,'김민준','남자');
+insert into test10 values(4,'김민준','남자',0);
+--null 조건이더라도 디폴트값을 설정하면 데이터를 넣지 않아도 입력이 가능해진다...
+
+
+create table testfk10(
+	no number,
+	bt varchar2(10),
+	height number,
+
+	constraint testfk10_fk foreign key(no) references test10(no)
+);
+
+insert into testfk10 values(1,'O형',177.4);
+
+insert into testfk10 values(10,'O형',177.4);
+
+//관계가 맺어진 테이블을 삭제 할때는....
+drop table test10 cascade CONSTRAINTS;
+
+===================================================================================================================
+
+create table test11(
+	no number constraint test11_pk primary key,
+	name varchar2(20) not null,
+	gender varchar2(20) constraint test11_ck check(gender in ('남자','여자')),
+	money number default 0 not null
+);
+
+insert into test11 values(1,'김민준','남자',1000);
+insert into test11 values(2,'송지아','여자',null);--null을 입력했기 때문에 null조건때문에 입력 불가.
+insert into test11(no,name,gender) values(3,'김민준','남자');
+insert into test11 values(4,'김민준','남자',0);
+--null 조건이더라도 디폴트값을 설정하면 데이터를 넣지 않아도 입력이 가능해진다...
+
+
+create table testfk11(
+	no number,
+	bt varchar2(10),
+	height number,
+
+	constraint testfk11_fk foreign key(no) references test10(no) on delete cascade
+);
+
+insert into testfk11 values(1,'O형',177.4);
+
+insert into testfk11 values(10,'O형',177.4);
+
+- on delete cascade - 참조되는 부모테이블의 행에 대한 delete를 허용하는...
+-- 단, 부모 테이블의 행이 지워지면 자식테이블의 행도 같이 지워 진다...
+
+- on delete set null - 참조되는 부모테이블의 행에 대한 delete를 허용한다....
+-- 단, 부모테이블의 행이 지워지면 자식테이블은 null값으로 설정한다....
+
+=====================================================================================================================
+
+-- exception - 예외 발생시 예외를 보기 쉽도록 정리하는 방법....
+
+-- 예외 발생시 예외를 저장하는 테이블
+
+create table exceptions(
+row_id rowid,
+owner varchar2(30),
+table_name varchar2(30),
+constraint varchar2(30)
+);
+
+-- rowid - rownum - 오라클에서 자동으로 만들어주는 컴럼
+
+-- 예외 발생시 테이블에 적용시키기위한 sql
+-- alter table 테이블명  enable 제약조건 exceptions into exceptions;
+
+alter table test10 ENABLE PRIMARY KEY EXCEPTIONS INTO exceptions;
+
+insert into test3 VALUES(1,'김민준');
+
+alter table test10 ENABLE PRIMARY KEY;
+
+insert into test10 values(1,'김민준','남자',1000);
+
+
+
+alter table testfk10 ENABLE CONSTRAINT testfk10_fk;
+
+select * from test10 where rowid in (select row_id from exceptions);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
