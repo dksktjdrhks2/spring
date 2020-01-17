@@ -1,0 +1,124 @@
+
+JDBC(Java DataBase Connectivity)
+ - JAVA에서 DB연동을 위해서 관련된 여러 작업을 처리할수 있도록 미리 구현되어있다...
+ - JDBC API
+ - DBMS의 종류와 상관없이 하나의 JDBC API를 통해서 통합적인 처리를 할수 있게 되었다...
+
+JDBC프로그래밍 순서
+
+1. JDBC 드라이버 로딩
+2. 커넥션 객체 생성 - Connection
+3. 쿼리 실행을 위한 객체 생성 - PreparedStatement
+4. 쿼리 실행
+5. 실행결과 사용 - select - ResultSet   -  insert , delete , update - int
+6. ResultSet 종료
+7. PreparedStatment 종료
+8. Connection 종료
+
+======================================================================================================
+
+1. JDBC드라이버 로딩
+ - DBMS마다 별도의 드라이버가 필요하다....
+ - 드라이버는 일반적으로 jar파일 형태로 DBMS마다 기본적으로 제공해준다....
+ - C:\18.0.0\dbhomeXE\jdbc\lib\ojdbc8.jar
+ - 빌드패스를 통해 추가해서 사용하면된다...
+ - Class.forName("JDBC드라이버클래스의 완전한 이름")
+
+ - 주요  DBMS JDBC드라이버 클래스
+  - oracle - oracle.jdbc.driver.OracleDriver
+	 - oracle.jdbc.OracleDriver
+
+  - MySQL - com.mysql.jdbc.Driver
+  - MS SQL - com.microsoft.sqlserver.jdbc.SQLServerDriver 
+
+----------------------------------------------------------------------------------------------------------
+
+2.연결 관리를 위한 객체 생성 - Connection
+ - java.sql.Connection - interface
+ - java에서는 자주사용되는 interface에대해 객체 생성을 해주는 메소드들이 존재한다..
+ - java.sql.DriverManager 클래스 안에 getConnection이라는 메소드를 이용하여 객체를 생성한다...
+
+ - url - 데이터베이스의 정보와 위치를 알려주는 데이터...
+	- jdbc:DMBS명:데이터베이스 식별자(Port , SID , IP......)
+	- jdbc:oracle:드라이버:@HOST:PORT:SID
+  	- jdbc:oracle:thin:@127.0.0.1:1521:xe
+ - user - 접속할 계정의 아이디
+ - password - 접속할 계정의 비밀번호
+
+
+----------------------------------------------------------------------------------------------------------
+
+3. 쿼리 실행을 위한 객체 생성 - PreparedStatement
+
+ - Statement - 정적쿼리방식 - 비추천
+	
+	select * from testmember where name = '김민준';
+
+ - PreparedStatement - 동적쿼리방식 - 추천방식
+
+	select * from testmember where name = ?;
+
+create table dbtest(
+name    	varchar2(15),
+age       	number,  	   
+height    	number(10,2),   
+logtime   date);  
+
+
+=================================================================================================================
+
+JAVA Bean
+ - 뷰페이지와 로직페이지를 분리시키고자 따로 작성하게된 클래스...
+ - 데이터베이스안의 데이터들을 관리하기위해서 사용되는 클래스...
+ - 각각의 DTO와 DAO는 하나의 테이블당 하나씩 만들어진다...
+
+ - DTO(Data Transfer Object) , VO(Value Object)
+  - 데이터를 DB로 보내거나 DB로 부터 레코드를 가져올때 사용하는 하나의 덩어리로 만들어진 객체..
+ - DAO(Data Access Object)
+  - 객체화된 DTO를 가지고 DB에 접속시 사용되는 메소드들을 정의한 클래스...
+
+ - 규칙
+  - 클래스는 반드시 특정 패키지 소속이어야 한다...
+  - DTO클래스 안의 멤버변수는 property라고 부른다...
+  - 멤버변수는 반드시 private으로 설정해야 한다...DTO...
+  - DTO멤버변수에대한 getter와 setter는 반드시 존재하여야 한다...
+  - 디폴트 생성자는 반드시 존재하여야 한다..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
