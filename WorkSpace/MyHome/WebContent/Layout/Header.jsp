@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- <%
 	String login = (String)session.getAttribute("login");
-%>
+%> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,13 +44,21 @@
 <body>
 	<div align="center">
 		<div align="center" id = "header"  >
-			<%if(login != null) {%>
+		<c:if test="${sessionScope.login != null }">
+			<a href = "/MyHome/Member/MyPage.jsp" style="text-decoration: none;">MyPage</a> | 
+			<a href = "/MyHome/Login/Logout.jsp" style="text-decoration: none;">Logout</a> | 
+		</c:if>
+		<c:if test="${sessionScope.login == null }">
+			<a href = "/MyHome/Login.do" style="text-decoration: none;">Login</a> | 
+			<a href = "/MyHome/Member/JoinForm.jsp" style="text-decoration: none;">Join</a> | 
+		</c:if>
+			<%-- <%if(login != null) {%>
 				<a href = "/MyHome/Member/MyPage.jsp" style="text-decoration: none;">MyPage</a> | 
 				<a href = "/MyHome/Login/Logout.jsp" style="text-decoration: none;">Logout</a> | 
 			<%} else {%>
-				<a href = "/MyHome/Login/LoginForm.jsp" style="text-decoration: none;">Login</a> | 
+				<a href = "/MyHome/Login/Login" style="text-decoration: none;">Login</a> | 
 				<a href = "/MyHome/Member/JoinForm.jsp" style="text-decoration: none;">Join</a> | 
-			<%} %>
+			<%} %> --%>
 			<%--<a href = "/MyHome/Member/MyPage.jsp" style="text-decoration: none;">MyPage</a> | 
 			<a href = "/MyHome/Login/Logout.jsp" style="text-decoration: none;">Logout</a> | 
 			

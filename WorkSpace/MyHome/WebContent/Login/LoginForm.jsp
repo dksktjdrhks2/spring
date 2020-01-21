@@ -39,7 +39,7 @@
 </script>
 <%@include file="/Layout/Header.jsp" %>
 <div align="center">
-	<form action="/MyHome/Login/CheckLogin.jsp" method="post" name = "login">
+	<form action="/MyHome/Login/CheckLogin" method="post" name = "login">
 		<table id = "border" style="border-spacing: 0px;">
 			<tr>
 				<th id = "border">ID</th>
