@@ -1,0 +1,13 @@
+E:\Spring_Framework_ysk\eclipse-jee-2019-12-R-win32-x86_64\WorkSpace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\MyHome
+# 원본파일경로.
+
+E:\Spring_Framework_ysk\eclipse-jee-2019-12-R-win32-x86_64\WorkSpace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\work\Catalina\localhost\MyHome\org\apache\jsp
+# Servlet파일 경로
+
+javax.servlet.http.HttpServlet 상속받아야 servlet파일으로 만들어짐
+
+디자인 패턴 - 웹을 만들기위한패턴 (가장 많이사용하는패턴 M V C)
+Model, Controler, View
+MVC1 == V -> C,M
+MVC2 == (컨트롤러를하나로 통일) 	V -> C(데이터처리할게있다면) -> M
+				V -> C(없다면) -> V
