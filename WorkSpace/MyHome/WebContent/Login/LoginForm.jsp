@@ -21,9 +21,6 @@
 			id = "";
 		}
 	}
-	
-
-	
 %>   
 
 <script type="text/javascript">
@@ -39,7 +36,7 @@
 </script>
 <%@include file="/Layout/Header.jsp" %>
 <div align="center">
-	<form action="/MyHome/Login/CheckLogin" method="post" name = "login">
+	<form action="/MyHome/CheckLogin.do" method="post" name = "login">
 		<table id = "border" style="border-spacing: 0px;">
 			<tr>
 				<th id = "border">ID</th>

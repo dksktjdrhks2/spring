@@ -1,4 +1,4 @@
-package controller.login;
+package controller.board;
 
 import java.io.IOException;
 
@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.action.ListAction;
 import controller.login.action.CheckLoginAction;
 import util.Action;
 import util.ActionForward;
 
 
-@WebServlet("*.do") // /MyHome/*.do
+@WebServlet("*.brd")
 public class Controller extends HttpServlet{
 	
 	Action action;
@@ -26,7 +27,6 @@ public class Controller extends HttpServlet{
 		doGet(req, resp);
 	}
 	
-	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -38,20 +38,16 @@ public class Controller extends HttpServlet{
 		System.out.println(requestURL);
 		
 		int lastIndex = requestURL.lastIndexOf("/");
-		int lastIndex2 = requestURL.lastIndexOf(".do");
+		int lastIndex2 = requestURL.lastIndexOf(".brd");
 		
 		String path = requestURL.substring(lastIndex + 1, lastIndex2);
 		
 		System.out.println(path);
 		
 		switch(path) {
-		case "Login":
-			action = null;
-			actionForward = new ActionForward("/MyHome/Login/LoginForm.jsp", true);
-			break;
-		case "CheckLogin":
-			action = new CheckLoginAction();
-			actionForward = new ActionForward("/Login/LoginResult.jsp", false);
+		case "BoardList":
+			action = new ListAction();
+			actionForward = new ActionForward("/Board/BoardList.jsp", false);
 			break;
 		}
 		

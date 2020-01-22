@@ -65,7 +65,7 @@
 			<a href = "/MyHome/Login/LoginForm.jsp" style="text-decoration: none;">Login</a> | 
 			<a href = "/MyHome/Member/JoinForm.jsp" style="text-decoration: none;">Join</a> | 
 			--%>
-			<a href = "/MyHome/Board/BoardList.jsp" style="text-decoration: none;">Board</a> | 
+			<a href = "/MyHome/Board/BoardList.brd" style="text-decoration: none;">Board</a> | 
 			<a href = "/MyHome/Index.jsp" style="text-decoration: none;">Home</a>
 		</div>		
 		<div align="center" id = "main">
