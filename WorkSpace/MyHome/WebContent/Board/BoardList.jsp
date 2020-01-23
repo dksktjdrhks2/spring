@@ -16,7 +16,7 @@
 					<c:forEach var = "dto" items="${list }">
 						<tr>
 							<td id = "border" align="center">${dto.seq }</td>
-							<td id = "border" width="200px">${dto.title }</td>
+							<td id = "border" width="200px"><a href="/MyHome/ReadContent.brd" style="text-decoration: none; font-weight: bold;" >${dto.title }</a></td>
 							<td id = "border" align="center">${dto.id }</td>
 							<td id = "border" align="center">${dto.logtime }</td>
 							<td id = "border" align="center">${dto.hit }</td>
@@ -32,7 +32,7 @@
 		</table>
 		<c:if test="${login != null }">
 			<div id="button">
-				<input type="button" value="글쓰기">
+				<input type="button" value="글쓰기" onclick="location.href = '/MyHome/WriteForm.brd'">
 			</div>
 		</c:if>
 	</div>

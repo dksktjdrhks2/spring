@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import board.boardDTO.BoardDTO;
+import member.memberDAO.MemberDAO;
 
 public class BoardDAO {
 	
@@ -111,5 +112,70 @@ public class BoardDAO {
 		}
 		
 		return list;
+	}
+	
+	public boolean write(BoardDTO dto) {
+		boolean check = false;
+		
+		String sql = "insert into board values(board_seq.nextval,?,?,?,?,?,0,sysdate)";
+		
+		try {
+			con = ds.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, dto.getId());
+			ps.setString(2, new MemberDAO().getName(dto.getId()));
+			ps.setString(3, dto.getTitle());
+			ps.setString(4, dto.getContent());
+			ps.setString(5, dto.getFilename());
+			if(ps.executeUpdate() != 0) {
+				check = true;
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			}catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		
+		return check;
+	}
+	
+	public BoardDTO getContent(BoardDTO dto) {
+		String sql = "select * from board where title = ?";
+		
+		try {
+			con = ds.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, dto.getTitle());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				dto.setId(rs.getString(2));
+				dto.setName(rs.getString(3));
+				dto.setTitle(rs.getString(4));
+				dto.setContent(rs.getString(5));
+				dto.setFilename(rs.getString(6));
+				dto.setHit(rs.getInt(7));
+				dto.setLogtime(rs.getDate(8));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			}catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		
+		return dto;
 	}
 }
