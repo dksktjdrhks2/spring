@@ -1,0 +1,11 @@
+select rownum, tt.* from (SELECT
+    *
+FROM board order by seq desc) tt;
+서브쿼리 (조인문)
+
+SELECT
+    *
+FROM (select rownum rn, tt.* from (SELECT
+    *
+FROM board order by seq desc) tt) where rn >= 6 and rn <= 10;
+게시판 sql문
