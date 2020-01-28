@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.action.CheckWriteAction;
+import board.action.FileDownloadAction;
 import board.action.ListAction;
+import board.action.ReadContentAction;
 import controller.login.action.CheckLoginAction;
 import util.Action;
 import util.ActionForward;
@@ -59,8 +61,14 @@ public class Controller extends HttpServlet{
 			actionForward = new ActionForward("/Board/Result.jsp", false);
 			break;
 		case "ReadContent":
-			action = null;
+			action = new ReadContentAction();
 			actionForward = new ActionForward("/Board/ReadContent.jsp", false);
+			break;
+		case "FileDownload":
+			action = new FileDownloadAction();
+			actionForward = new ActionForward("/MyHome/ReadContent.brd?seq=" + 
+			request.getSession().getAttribute("seq"), true);
+			break;
 		}
 		
 		if(action != null) {

@@ -10,16 +10,20 @@ import board.boardDAO.BoardDAO;
 import board.boardDTO.BoardDTO;
 import util.Action;
 
-public class ReadContentAction implements Action{
+public class ReadContentAction implements Action {
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		BoardDTO dto = new BoardDTO();
 		
-		dto.setTitle(request.getParameter("title"));
+		int seq = Integer.parseInt(request.getParameter("seq"));
+		BoardDAO dao = BoardDAO.getInstance();
 		
-		BoardDTO dto2 = BoardDAO.getInstance().getContent(dto);
+		dao.readCount(seq);
 		
-		request.setAttribute("dto", dto2);
+		BoardDTO dto = dao.getContent(seq);
+		
+		request.setAttribute("dto", dto);
+		request.getSession().setAttribute("seq", seq);
 	}
+
 }

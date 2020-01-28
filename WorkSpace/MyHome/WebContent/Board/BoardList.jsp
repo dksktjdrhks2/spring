@@ -16,7 +16,7 @@
 					<c:forEach var = "dto" items="${list }">
 						<tr>
 							<td id = "border" align="center">${dto.seq }</td>
-							<td id = "border" width="200px"><a href="/MyHome/ReadContent.brd" style="text-decoration: none; font-weight: bold;" >${dto.title }</a></td>
+							<td id = "border" width="200px"><a href="/MyHome/ReadContent.brd?seq=${dto.seq }" style="text-decoration: none; font-weight: bold;" >${dto.title }</a></td>
 							<td id = "border" align="center">${dto.id }</td>
 							<td id = "border" align="center">${dto.logtime }</td>
 							<td id = "border" align="center">${dto.hit }</td>
@@ -34,6 +34,19 @@
 			<div id="button">
 				<input type="button" value="글쓰기" onclick="location.href = '/MyHome/WriteForm.brd'">
 			</div>
+		</c:if>
+		<c:if test="${start >= 11 }">
+			<a href="/MyHome/BoardList.brd?start=${start - 10 }">[이전]</a>
+		</c:if>
+		<c:if test="${start >= 6 }">
+			<a href="/MyHome/BoardList.brd?start=${start - 5 }">[${nowPage - 1 }]</a>
+		</c:if>
+		[${nowPage }]
+		<c:if test="${start + 5 <= total }">
+			<a href="/MyHome/BoardList.brd?start=${start + 5 }">[${nowPage + 1 }]</a>
+		</c:if>
+		<c:if test="${start + 10 <= total }">
+			<a href="/MyHome/BoardList.brd?start=${start + 10 }">[다음]</a>
 		</c:if>
 	</div>
 <jsp:include page="/Layout/Footer.jsp"/>

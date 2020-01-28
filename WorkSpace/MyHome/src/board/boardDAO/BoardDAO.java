@@ -90,12 +90,19 @@ public class BoardDAO {
 		}
 	}
 	
-	public ArrayList<BoardDTO> getList() {
+	public ArrayList<BoardDTO> getList(int start) {
 		ArrayList<BoardDTO> list = null;
-		String sql = "select * from board order by seq desc";
+		//String sql = "select * from board order by seq desc";
+		String sql = "SELECT" + 
+				"*" + 
+				"FROM (select rownum rn, tt.* from (SELECT" + 
+				"*" + 
+				"FROM board order by seq desc) tt) where rn >= ? and rn <= ?";
 		try {
 			con = ds.getConnection();
 			ps = con.prepareStatement(sql); // sql문으로 변환해준다
+			ps.setInt(1, start);
+			ps.setInt(2, start + 4);
 			rs = ps.executeQuery();
 			list = makeList(rs);
 		} catch (SQLException e) {
@@ -145,24 +152,61 @@ public class BoardDAO {
 		return check;
 	}
 	
-	public BoardDTO getContent(BoardDTO dto) {
-		String sql = "select * from board where title = ?";
+	public void readCount(int seq) {
+		String sql = "update board set hit = hit + 1 where seq = ?";
 		
 		try {
 			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, dto.getTitle());
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				dto.setId(rs.getString(2));
-				dto.setName(rs.getString(3));
-				dto.setTitle(rs.getString(4));
-				dto.setContent(rs.getString(5));
-				dto.setFilename(rs.getString(6));
-				dto.setHit(rs.getInt(7));
-				dto.setLogtime(rs.getDate(8));
+			ps.setInt(1, seq);
+			ps.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			}catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
 			}
+		}
+	}
+	
+	public BoardDTO makeDTO(ResultSet rs){
+		BoardDTO dto = null;
+		
+		try {
+			if(rs.next()) {
+				int seq = rs.getInt("seq");
+				String id = rs.getString("id");
+				String name = rs.getString("name");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String filename = rs.getString("filename");
+				int hit = rs.getInt("hit");
+				Date logtime = rs.getDate("logtime");
+				dto = new BoardDTO(seq, id, name, title, content, filename, hit, logtime);
+			}
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+	
+	public BoardDTO getContent(int seq) {
+		String sql = "select * from board where seq = ?";
+		
+		BoardDTO dto = null;
+		
+		try {
+			con = ds.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, seq);
+			rs = ps.executeQuery();
+			dto = makeDTO(rs);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -177,5 +221,33 @@ public class BoardDAO {
 		}
 		
 		return dto;
+	}
+	
+	public int getTotal() {
+		String sql = "select count(*) from board";
+		
+		int su = 0;
+		
+		try {
+			con = ds.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				su = rs.getInt("count(*)");
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			}catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		
+		return su;
 	}
 }
