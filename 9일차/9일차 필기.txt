@@ -1,0 +1,12 @@
+pom.xml - 전체프로젝트
+target - m2... - hello - pom.xml - 현재 프로젝트
+
+Maven 에러
+프로젝트 - maven - update maven project - Force Update of Snapshots/Releases체크 (강제업데이트)
+
+다양한에러 (서버끈상태)
+Project - Clean...
+
+서버에러
+서버 오른쪽마우스 - clean
+서버 오른쪽마우스 - clean tomcat work directory
