@@ -4,5 +4,40 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	
+	<!-- bean 태그는 default 생성자를 호출한다. -->
+	<bean id="p1" class="vo.PersonVO">
+		<!-- dto , dao 안에있는 멤버변수를 property라고 한다
+			Property 태그는 클래스 내부에있는 setter메소드를 호출하게 되는 태그이다.
+			setter injection -->
+		<property name="name" value="YSK"/>
+		<property name="age" value="20"/>
+		<property name="tel" value="010-5293-2345"/>
+	</bean>
+	
+	<!-- PersonVO 클래스 내부에있는 생성자를 이용하여 생성한다 -->
+	<bean id="p2" class="vo.PersonVO">
+		<!-- Constructor(생성자) Injection 
+			생성자의 설정된 매개변수의 순서에 맞게 대입하여야 한다.
+			index 옵션을 사용하여 순서를 지정해준다면 순서가 뒤집혀도 상관없다.-->
+		<constructor-arg value="손승연" index="0"/>
+		<constructor-arg value="21" index="1"/>
+		<constructor-arg value="010-9302-0521" index="2"/>
+	</bean>
+	
+	<bean id="telBean" class="java.lang.String">
+		<constructor-arg value="010-1234-5678"/>
+	</bean>
+	<bean id="ageBean" class="java.lang.Integer">
+		<constructor-arg value="20"/>
+	</bean>
+	<bean id="nameBean" class="java.lang.String">
+		<constructor-arg value="홍길동"/>
+	</bean>
+	
+	<bean id="p3" class="vo.PersonVO" scope="prototype">
+		<property name="name" ref="nameBean"/>
+		<property name="age" ref="ageBean"/>
+		<property name="tel" ref="telBean"/>
+	</bean>
 </beans>
