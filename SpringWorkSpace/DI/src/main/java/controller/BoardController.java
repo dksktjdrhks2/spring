@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import service.BoardService;
@@ -24,8 +25,15 @@ public class BoardController {
 	// @requestMapping을 통해 지정하면 된다...
 	
 	@RequestMapping("/board/list.do")
-	public String list() {
+	public String list(Model model) {
+		//Model
+		// - Servlet과 Controller의 중간 매개체 역할을 하는 인터페이서
+		// - request객체와 binding(연결)처리가 되어 서로간의 호환이 가능해 진다...
+		
 		List<String> list = service.selectList();
+		
+		// request.setAttribute
+		model.addAttribute("list", list);
 		
 		return "board_list";
 	}

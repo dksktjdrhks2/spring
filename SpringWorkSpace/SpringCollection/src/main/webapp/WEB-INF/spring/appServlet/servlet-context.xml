@@ -21,17 +21,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<!-- 컨트롤러를 지정한 패키지에서 자동으로 읽어서 만들어주는 기능을 한다...
-		Auto-Detecting
-		
-		<context:component-scan base-package="com.spring.di,controller" />
-		수동으로 할꺼면 수동으로 해야되고 자동으로할꺼면 자동으로 쭉 해야한다, 섞어서 사용 불가.
-		 -->
-	<beans:bean class="com.spring.di.HomeController"/>
+	<context:component-scan base-package="com.spring.collection" />
 	
-	<beans:bean class="controller.BoardController">
-		<beans:property name="service" ref="serviceBean"/>
-	</beans:bean>
 	
 	
 </beans:beans>

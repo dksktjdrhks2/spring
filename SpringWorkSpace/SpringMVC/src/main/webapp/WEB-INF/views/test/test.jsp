@@ -8,16 +8,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	<div align="center">
-		<p> 게시판 목록 </p>
-		<hr>
-		<ul>
-			<c:forEach var = "fruit" items="${sessionScope.list }">
-				<li>${fruit }</li>
-			</c:forEach>
-		</ul>
-	</div>
-
+	<p>test페이지로 접근 합니다.</p>
+	<p>[${ip }]님이 요청한 나라별 인사말</p>
+	<ul>
+		<c:forEach var="m" items="${msg }">
+			<li>${m }</li>
+		</c:forEach>
+	</ul>
 </body>
 </html>
