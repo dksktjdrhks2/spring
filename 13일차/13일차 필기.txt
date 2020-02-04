@@ -1,0 +1,32 @@
+MyBatis - 관계형 데이터 베이스 프로그래밍을 좀더 쉽게 할 수 있도록 도와주는 개발 프레임워크
+기존 JDBC의 단점들을 보완하여 좀 더 편하게 DB관리를 할수 있도록 개발되었다...
+
+Maven
+ - www.mvnrepository.com
+
+Oracle
+ - oracle.com
+	ojdbc8 download 검색
+
+JAR파일 수동 설치 하기
+ - 1. 필요한 jar파일 다운로드 받기
+ - 2. Maven 설치
+	- maven.apache.org/download.html
+	- 다운로드후 원하는 경로에가서 압축 해제...
+	- 환경변수 설정
+ 		- 시스템 변수 -> 새로만들기
+			- 변수명 : MAVEN_HOME
+			- 변수값 : Maven 파일위치 값
+		- 변수 설정후에 Path 설정을 잡는다.
+			- Path 편집 -> %MAVEN_HOME%\bin
+
+Maven 실행시 JAVA_HOME 문제시...
+ - 환경 변수 수정...
+ - cmd창에
+	set JAVA_HOME=자바jdk폴더 경로
+
+JAR파일 설치
+ - mvn install:install-file -Dfile=c:\ojdbc8.jar -DgroupId=com.oracle -DartifactId=ojdbc8 -Dversion=12.2.0.1 -Dpackaging=jar -DgeneratePom=true
+
+xml 오류시
+코드 작성창 하단NameSpaces - context체크후 확인
