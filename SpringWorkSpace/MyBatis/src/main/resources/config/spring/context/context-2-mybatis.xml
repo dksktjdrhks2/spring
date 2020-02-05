@@ -4,8 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	
-	<!-- MyBatis 연결 설정 -->
+	<!-- Mybatis 설정 -->
 	<bean id="factoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="ds"/>
 		<property name="configLocation" value="classpath:config/mybatis/mybatis-config.xml"/>
@@ -14,5 +13,4 @@
 	<bean id="SqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="factoryBean"/>
 	</bean>
-	
 </beans>
