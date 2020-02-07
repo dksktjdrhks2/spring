@@ -7,13 +7,60 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/visit.css">
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/httpRequest.js"></script>
 <script type="text/javascript">
-	function modify( f ) {
+	function del( f ) {
+		var pwd = f.pwd.value; // 원래 비밀번호
+		var c_pwd = f.c_pwd.value; // 입력된 비밀번호
+		
+		if(pwd != c_pwd){
+			alert("비밀번호가 틀립니다.");
+			return;
+		}
+		
+		// 삭제 확인
+		if(confirm("정말 삭제하시겠습니까?") == false){
+			return;
+		}
+		
+		// id를 ajax를 통해서 서버로 전송
+		var url = "delete.do";
+		
+		// id에 @와 같은 특수문자가 들어가 있는 경우를 대비해서 인코딩...
+		var param = "idx=" + encodeURIComponent(f.idx.value);
+		
+		sendRequest(url, param, resultFn, "GET");
 		
 	}
 	
-	function del( f ) {
+	function resultFn() {
+		// 결과를 받을 콜백 메소드...
+		if(xhr.readyState == 4 && xhr.status == 200){
+			// 결과값 읽어 오기
+			var data = xhr.responseText;
+			
+			if(data == "no"){
+				alert("삭제 실패");
+				return;
+			}
+			
+			alert("삭제 성공");
+			
+			location.href = "list.do";
+		}
+	}
+	
+	function modify( f ) {
+		var pwd = f.pwd.value; // 원래 비밀번호
+		var c_pwd = f.c_pwd.value; // 입력된 비밀번호
 		
+		if(pwd != c_pwd){
+			alert("비밀번호가 틀립니다.");
+			return;
+		}
+		
+		f.action = "modify_form.do";
+		f.submit();
 	}
 </script>
 </head>

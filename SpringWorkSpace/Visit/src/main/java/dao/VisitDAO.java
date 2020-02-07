@@ -31,4 +31,30 @@ public class VisitDAO {
 		
 		return res;
 	}
+	
+	//글 삭제
+	public int delete(int idx) {
+		int res = 0;
+		
+		res = sqlSession.delete("visit.visit_delete", idx);
+		
+		return res;
+	}
+	
+	//글 검색
+	public VisitVO selectOne(int idx) {
+		VisitVO vo = null;
+		
+		vo = sqlSession.selectOne("visit.visit_one", idx);
+		
+		return vo;
+	}
+	
+	public int update(VisitVO vo) {
+		int res = 0;
+		
+		res = sqlSession.update("visit.visit_update", vo);
+		
+		return res;
+	}
 }
