@@ -23,15 +23,13 @@ public class BoardDAO {
 		return list;
 	}
 	
-	public BoardVO selectOne(int seq) {
+	public BoardVO getContent(int seq) {
 		BoardVO vo = null;
+		
+		sqlSession.update("board.board_count", seq);
 		
 		vo = sqlSession.selectOne("board.board_one", seq);
 		
 		return vo;
-	}
-	
-	public void readCount(int seq) {
-		sqlSession.update("board.board_count", seq);
 	}
 }

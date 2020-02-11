@@ -32,11 +32,10 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/board_content.do")
-	public String content(Model model, int seq) {
+	public String getContent(Model model, int seq) {
 		BoardVO vo = null;
 		
-		board_dao.readCount(seq);
-		vo = board_dao.selectOne(seq);
+		vo = board_dao.getContent(seq);
 		
 		model.addAttribute("vo", vo);
 		

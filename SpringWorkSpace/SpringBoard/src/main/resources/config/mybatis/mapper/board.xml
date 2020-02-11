@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from board order by seq desc
 	</select>
 	
-	<select id="board_one" resultType="vo.BoardVO">
+	<select id="board_one" parameterType="java.lang.Integer" resultType="vo.BoardVO">
 		select * from board where seq = #{seq}
 	</select>
 	

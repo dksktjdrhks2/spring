@@ -26,12 +26,12 @@
 					${vo.content }
 				</td>
 			</tr>
-			 <%-- <tr>
+			 <tr>
 				<th id = "border">첨부파일</th>
 				<td id = "border" colspan="3">
 					<a href = "/MyHome/FileDownload.brd?filename=${vo.filename }" id = "link">${vo.filename }</a>
 				</td>
-			</tr> --%>
+			</tr>
 		</table>
 		<%-- <div id = "button" align="right">
 			<c:if test="${sessionScope.login == dto.id }">
