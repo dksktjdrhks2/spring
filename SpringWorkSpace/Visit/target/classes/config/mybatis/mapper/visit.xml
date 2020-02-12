@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="visit_insert" parameterType="vo.VisitVO">
-		insert into visit values(seq_visit_idx.nextval,#{name},#{content},#{pwd},#{ip},sysdate)
+		insert into visit values(seq_visit_idx.nextval,#{name},#{content},#{pwd},#{ip},sysdate,#{filename})
 	</insert>
 	
 	<delete id="visit_delete" parameterType="java.lang.Integer">

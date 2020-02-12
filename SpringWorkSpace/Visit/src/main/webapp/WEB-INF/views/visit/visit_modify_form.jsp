@@ -79,7 +79,12 @@
 								${ vo.content }</textarea>
 		    </td>
 		</tr>
-
+		
+		<tr>
+			<th>사진</th>
+			<td><input type="file" name="photo"></td>
+		</tr>
+		
 		<tr>
 			<th>비밀번호</th>
 			<td><input type="password" name="pwd" value="${ vo.pwd }"></td>

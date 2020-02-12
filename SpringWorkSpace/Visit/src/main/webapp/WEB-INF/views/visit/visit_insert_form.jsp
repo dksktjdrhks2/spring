@@ -11,6 +11,7 @@ function send(f)
 	var name = f.name.value;
 	var content = f.content.value;
 	var pwd = f.pwd.value;
+	var photo = f.photo.value;
 	
 	if(name==''){
 		alert('작성자 이름을 입력하세요');
@@ -40,7 +41,7 @@ function send(f)
 
 <body>
 
-<form>
+<form method="POST" enctype="multipart/form-data">
 	<table border="1" align="center">
 		<caption>::::방명록쓰기::::</caption>
 		<tr>
@@ -53,7 +54,12 @@ function send(f)
 		    	<textarea name="content"  rows="5"  cols="50"></textarea>
 		    </td>
 		</tr>
-
+		
+		<tr>
+			<th>파일</th>
+			<td><input type="file" name="photo"></td>
+		</tr>
+		
 		<tr>
 			<th>비밀번호</th>
 			<td><input type="password" name="pwd"></td>

@@ -27,6 +27,10 @@
 		<beans:constructor-arg ref="fileupload_dao" />
 	</beans:bean> -->
 	
+	<!-- Controller 수동 생성시 .... Autowired를 사용할수 없다....속성을 별도로 추가 시켜주어야 한다.. -->
+	
+	<context:annotation-config/>
+	
 	<beans:bean class="com.spring.fileupload.FileUploadController"/>
 	
 	<!-- <beans:bean id="HomeController" class="com.spring.vs.HomeController"/> -->

@@ -1,5 +1,7 @@
 package vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class VisitVO {
 	private int idx;
 	private String name;
@@ -7,12 +9,14 @@ public class VisitVO {
 	private String pwd;
 	private String ip;
 	private String regdate;
+	private String filename;
+	private MultipartFile photo;
 	
 	public VisitVO() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public VisitVO(int idx, String name, String content, String pwd, String ip, String regdate) {
+	public VisitVO(int idx, String name, String content, String pwd, String ip, String regdate, String filename) {
 		super();
 		this.idx = idx;
 		this.name = name;
@@ -20,6 +24,20 @@ public class VisitVO {
 		this.pwd = pwd;
 		this.ip = ip;
 		this.regdate = regdate;
+		this.filename = filename;
+	}
+
+	public VisitVO(int idx, String name, String content, String pwd, String ip, String regdate, String filename,
+			MultipartFile photo) {
+		super();
+		this.idx = idx;
+		this.name = name;
+		this.content = content;
+		this.pwd = pwd;
+		this.ip = ip;
+		this.regdate = regdate;
+		this.filename = filename;
+		this.photo = photo;
 	}
 
 	public int getIdx() {
@@ -69,6 +87,22 @@ public class VisitVO {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public MultipartFile getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(MultipartFile photo) {
+		this.photo = photo;
+	}
 	
-	
+
 }

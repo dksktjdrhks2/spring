@@ -23,6 +23,8 @@
 	
 	<!-- <context:component-scan base-package="com.spring.vs" /> -->
 	
+	<context:annotation-config/>
+	
 	<beans:bean id="visit_daoBean" class="controller.VisitController">
 		<beans:constructor-arg ref="visit_dao" />
 	</beans:bean>

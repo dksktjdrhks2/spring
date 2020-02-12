@@ -78,6 +78,11 @@
 	
 			<div class="visit_box">
 			  <div class="type_content">${ vo.content }</div>
+			  <c:if test="${!empty vo.filename && vo.filename != 'no_file' }">
+			  	<div class="type_photo">
+			  		<img src="resources/upload/${vo.filename }" width="200px"/>
+			  	</div>
+			  </c:if>
 			  <div class="type_name">작성자:${ vo.name } (${ vo.ip })</div>
 			  <div class="type_regdate">작성일자:${ vo.regdate }</div>
 	
