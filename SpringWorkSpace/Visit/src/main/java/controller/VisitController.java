@@ -55,7 +55,7 @@ public class VisitController {
 	}
 	
 	@RequestMapping("/insert.do")
-	public String insert(VisitVO vo, HttpServletRequest request) {
+	public String insert(VisitVO vo) throws IllegalStateException, IOException {
 		
 		String ip = request.getRemoteAddr();
 		String webPath = "/resources/upload/"; // Web경로...
@@ -88,11 +88,7 @@ public class VisitController {
 			
 			// 업로드된 파일은 MultipartResolver 라는 클래스가 지정한 임시 저장소에 저장한다...
 			// 임시 저장소의 파일은 시간이 지나면 사라진다...내가 지정한 경로로 파일을 복사해준다...
-			try {
-				photo.transferTo(saveFile);
-			}catch (IOException e) {
-				// TODO: handle exception
-			}
+			photo.transferTo(saveFile);
 		}
 		
 		vo.setFilename(filename);
