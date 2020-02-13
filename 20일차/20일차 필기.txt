@@ -1,0 +1,9 @@
+AOP
+ - 관점 지향 프로그래밍...
+ - 다수의 객체들에 분산되어 중복적으로 존재하는 공통 관심사
+
+ maven
+  - AOP Alliance
+  - AspectJ Weaver
+  - CGLib
+  - ASM
